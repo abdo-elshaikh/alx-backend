@@ -30,9 +30,8 @@ class Server:
         start index and an end index corresponding
         to the range of indexes to return in a list for
         those particular pagination parameters."""
-        start_idx = (page - 1) * page_size
-        end_idx = page * page_size
-        return start_idx, end_idx
+        snextPageStartIndex = page * page_size
+        return snextPageStartIndex - page_size, snextPageStartIndex
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """return the appropriate page of the dataset
@@ -41,4 +40,6 @@ class Server:
         assert page > 0 and page_size > 0
         dataset = self.dataset()
         start_idx, end_idx = self.index_range(page, page_size)
+        if start_idx > len(dataset):
+            return []
         return dataset[start_idx:end_idx]
