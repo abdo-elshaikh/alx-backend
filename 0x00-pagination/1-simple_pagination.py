@@ -3,7 +3,7 @@
 """
 import csv
 import math
-from typing import List
+from typing import List, Tuple
 
 
 class Server:
@@ -25,7 +25,7 @@ class Server:
 
         return self.__dataset
 
-    def index_range(self, page: int, page_size: int) -> tuple:
+    def index_range(self, page: int, page_size: int) -> Tuple:
         """return a tuple of size two containing a
         start index and an end index corresponding
         to the range of indexes to return in a list for
