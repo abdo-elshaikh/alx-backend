@@ -43,24 +43,18 @@ class Server:
         """Retrieves info about a page from a given index and with a
         specified size.
         """
-        data = self.indexed_dataset()
-        assert index is not None and index >= 0 and index <= max(data.keys())
-        page_data = []
-        data_count = 0
-        next_index = None
-        start = index if index else 0
-        for i, item in data.items():
-            if i >= start and data_count < page_size:
-                page_data.append(item)
-                data_count += 1
-                continue
-            if data_count == page_size:
-                next_index = i
-                break
-        page_info = {
+        focus = []
+        dataset = self.indexed_dataset()
+        index = 0 if index is None else index
+        keys = sorted(dataset.keys())
+        assert index >= 0 and index <= keys[-1]
+        [focus.append(i)
+         for i in keys if i >= index and len(focus) <= page_size]
+        data = [dataset[v] for v in focus[:-1]]
+        next_index = focus[-1] if len(focus) - page_size == 1 else None
+        return {
             'index': index,
-            'data': page_data,
-            'next_index': next_index,
-            'page_size': len(page_data),
-        }
-        return page_info
+            'data': data,
+            'page_size': len(data),
+            'next_index': next_index
+            }
