@@ -14,6 +14,7 @@ class FIFOCache(BaseCaching):
     '''
 
     def __init__(self):
+        '''init'''
         super().__init__()
         self.cache_data = OrderedDict()
 
@@ -27,7 +28,7 @@ class FIFOCache(BaseCaching):
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             first_key, _ = self.cache_data.popitem(last=False)
-            print(f"DISCARD: {first_key}")
+            print("DISCARD: ".format(first_key), end="\n")
 
         self.cache_data[key] = item
 
@@ -35,3 +36,4 @@ class FIFOCache(BaseCaching):
         '''return the value in `self.cache_data` linked to `key`
         '''
         return self.cache_data.get(key, None)
+
